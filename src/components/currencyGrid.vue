@@ -14,7 +14,9 @@
           </div>
         </v-flex>
         <v-flex xs12>
-          <div class="currencyUpdated">0.00000000</div>
+          <!-- <pre>{{ currency_data['BTC'] }}</pre> -->
+          <!-- <div class="currencyUpdated">{{currencyUpdated*parseInt(currency_data['BTC'])}}</div> -->
+          <div class="currencyUpdated">{{currencyUpdated}}</div>
         </v-flex>
     <!-- <div class="currencyType">
       <div class="currencyText">
@@ -40,7 +42,8 @@ export default {
   props: {
     currencyName: String,
     currencyNameShort: String,
-    currencyImg: String
+    currencyImg: String,
+    currencyUpdated: null
   },
   methods:{
     getImgUrl:function() {

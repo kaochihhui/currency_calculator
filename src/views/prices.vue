@@ -5,30 +5,27 @@
       <v-layout row wrap>
         <v-flex xs12>
           <v-flex xs6 offset-xs3>
-            <v-text-field id="usdAmount"
-              label="Input USD Amount"
-              single-line
-            ></v-text-field>
+            <v-text-field label="Input USD Amount" v-model="price" @input="up" placeholder="Placeholder" single-line></v-text-field>
           </v-flex>
         </v-flex>
         <v-flex xs12 sm6>
           <v-card>
-            <currencyGrid currencyName="Bitcoin" currencyNameShort="BTC" currencyImg="btc/btc"/>
+            <currencyGrid currencyName="Bitcoin" currencyNameShort="BTC" currencyImg="btc/btc" :currencyUpdated="price"/>
           </v-card>
         </v-flex>
         <v-flex xs12 sm6>
           <v-card>
-            <currencyGrid currencyName="Ethereum" currencyNameShort="ETH" currencyImg="eth/eth"/>
+            <currencyGrid currencyName="Ethereum" currencyNameShort="ETH" currencyImg="eth/eth" :currencyUpdated="price"/>
           </v-card>
         </v-flex>
         <v-flex xs12 sm6>
           <v-card>
-            <currencyGrid currencyName="Litecoin" currencyNameShort="LTC" currencyImg="ltc/ltc"/>
+            <currencyGrid currencyName="Litecoin" currencyNameShort="LTC" currencyImg="ltc/ltc" :currencyUpdated="price"/>
           </v-card>
         </v-flex>
         <v-flex xs12 sm6>
           <v-card>
-            <currencyGrid currencyName="Ethereum Classic" currencyNameShort="ETC" currencyImg="etc/etc"/>
+            <currencyGrid currencyName="Ethereum Classic" currencyNameShort="ETC" currencyImg="etc/etc" :currencyUpdated="price"/>
           </v-card>
         </v-flex>
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
@@ -36,7 +33,7 @@
       </v-layout>
     </v-container>
     </v-form>
-    <pre>{{ projects }}</pre>
+    <pre>{{ currency_data }}</pre>
   </div>
 </template>
 
@@ -44,6 +41,7 @@
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
 import currencyGrid from '@/components/currencyGrid.vue'
+import axios from 'axios'
 
 export default {
   name: 'prices_page',
@@ -52,13 +50,26 @@ export default {
   },
   data() {
     return {
-      projects: null
+      currency_data: null,
+      price: "0.00000000"
     }
   },
   mounted () {
     axios
-      .get('https://developers.coinbase.com/api/v2#exchange-rates')
-      .then(response => (this.projects = response))
+      .get('https://api.coinbase.com/v2/exchange-rates?currency=BTC')
+      .then(response => (this.currency_data = response.data.data.rates))
+
+  },
+  methods: {
+    up (){
+      // console.log(this.prices)
+    // console.log('pf', parseFloat(this.price))
+      if (parseFloat(this.price) > 5) {
+        this.$nextTick(() => {
+          this.price = 9
+        })
+      }
+    },
   },
   computed: {
     binding () {
