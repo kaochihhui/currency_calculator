@@ -24,5 +24,6 @@ export default new Router({
       name: 'account',
       component: () => import(/* webpackChunkName: "about" */ './views/account.vue')
     }
-  ]
+  ],
+  mode: 'history'
 })

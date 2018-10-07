@@ -5,7 +5,7 @@
       <v-layout row wrap>
         <v-flex xs12>
           <v-flex xs6 offset-xs3>
-            <v-text-field placeholder="Input USD Amount" v-model="price" @keypress="onlyForCurrency" single-line></v-text-field>
+            <v-text-field :placeholder="$t('inputAmount')" v-model="price" @keypress="onlyForCurrency" single-line></v-text-field>
           </v-flex>
         </v-flex>
         <v-flex xs12 sm6>

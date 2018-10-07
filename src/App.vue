@@ -4,14 +4,16 @@
       <v-toolbar app>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-btn flat><router-link to="/">Prices</router-link></v-btn>
-          <v-btn flat><router-link to="/wallet">Wallet</router-link></v-btn>
-          <v-btn flat><router-link to="/account">Account</router-link></v-btn>
+          <v-btn flat><router-link to="/">{{ $t('prices') }}</router-link></v-btn>
+          <v-btn flat><router-link to="/wallet">{{ $t('wallet') }}</router-link></v-btn>
+          <v-btn flat><router-link to="/account">{{ $t('account') }}</router-link></v-btn>
           <v-flex xs12>
             <v-select
+              item-text="text"
+              item-value="value"
+              v-model="defaultSelected"
               :items="items"
-              :item-value ="itemValue"
-              label="English"
+              @input="changedLang"
               outline solo
             ></v-select>
           </v-flex>
@@ -38,6 +40,7 @@
     <div class="main_page">
         <router-view/>
     </div>-->
+
   </div>
 
 </template>
@@ -45,9 +48,26 @@
 export default {
   name: 'app',
   data: () => ({
-    items: ['繁體中文', 'English'],
-    itemValue: ['zh-TW','en-US']
-  })
+    items: [
+      {
+        text: '繁體中文',
+        value: 'zh-TW'
+      },
+      {
+        text: 'English',
+        value:'en-US'
+      }
+    ],
+    defaultSelected: {
+      text: 'English',
+      value:'en-US'
+    },
+  }),
+  methods: {
+    changedLang(event) {
+      this.$i18n.locale = event;
+    }
+  }
 }
 </script>
 
