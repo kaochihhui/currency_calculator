@@ -5,8 +5,7 @@
       <v-layout row wrap>
         <v-flex xs12>
           <v-flex xs6 offset-xs3>
-             <!-- @input="up"  -->
-            <v-text-field placeholder="Input USD Amount" v-model="price" single-line></v-text-field>
+            <v-text-field placeholder="Input USD Amount" v-model="price" @keypress="onlyForCurrency" single-line></v-text-field>
           </v-flex>
         </v-flex>
         <v-flex xs12 sm6>
@@ -29,8 +28,6 @@
             <currencyGrid currencyName="Ethereum Classic" currencyNameShort="ETC" currencyImg="etc/etc" :currencyUpdated="newCurrency['ETC']"/>
           </v-card>
         </v-flex>
-    <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
       </v-layout>
     </v-container>
     </v-form>
@@ -39,8 +36,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
 import currencyGrid from '@/components/currencyGrid.vue'
 import axios from 'axios'
 
@@ -68,44 +63,32 @@ export default {
   },
   watch: {
    price (value) {
-     if(value!=null || value!=""){
-       // console.log(value);
-       // console.log(this.currency_data["BTC"]);
-       // console.log(value*this.currency_data["BTC"]);
-       this.newCurrency["BTC"]=value*this.currency_data["BTC"];
-       this.newCurrency["ETH"]=value*this.currency_data["ETH"];
-       this.newCurrency["LTC"]=value*this.currency_data["LTC"];
-       this.newCurrency["ETC"]=value*this.currency_data["ETC"];
+     if(value!=null){
+       this.newCurrency["BTC"] = value*this.currency_data["BTC"];
+       this.newCurrency["ETH"] = value*this.currency_data["ETH"];
+       this.newCurrency["LTC"] = value*this.currency_data["LTC"];
+       this.newCurrency["ETC"] = value*this.currency_data["ETC"];
      }
-     // console.log(parseInt(this.price)*parseInt(this.currency_data["BTC"]));
-
    }
  },
   methods: {
-    _checkifNumber(){
+    onlyForCurrency ($event) {
+       // console.log($event.keyCode); //keyCodes value
+       let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
 
-    },
-    up (){
+       // only allow number and one dot
+       if ((keyCode < 48 || keyCode > 57) && (keyCode !== 46 || this.price.indexOf('.') != -1)) { // 46 is dot
+          $event.preventDefault();
+       }
 
-      // this.newCurrency["BTC"]=parseInt(this.price)*parseInt(this.currency_data["BTC"]);
-      // this.newCurrency["ETH"]=parseInt(this.price)*parseInt(this.currency_data["ETH"]);
-      // this.newCurrency["LTC"]=parseInt(this.price)*parseInt(this.currency_data["LTC"]);
-      // this.newCurrency["ETC"]=parseInt(this.price)*parseInt(this.currency_data["ETC"]);
-
-
-      // parseInt(this.price)*parseInt(this.currency_data[""])
-
-      // console.log(this.prices)
-    // console.log('pf', parseFloat(this.price))
-      // if (parseFloat(this.price) > 5) {
-      //   this.$nextTick(() => {
-      //     this.price = 9
-      //   })
-      // }
-
+       // restrict to 2 decimal places
+       if(this.price!=null && this.price.indexOf(".")>-1 && (this.price.split('.')[1].length > 1)){
+         $event.preventDefault();
+       }
     },
   },
   computed: {
+
     binding () {
       const binding = {}
 
