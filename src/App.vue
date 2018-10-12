@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <v-app>
-      <v-toolbar app>
+      <navbar />
+      <!-- <v-toolbar app>
         <v-spacer></v-spacer>
         <v-toolbar-items>
           <v-btn flat><router-link to="/">{{ $t('prices') }}</router-link></v-btn>
@@ -18,7 +19,7 @@
             ></v-select>
           </v-flex>
         </v-toolbar-items>
-      </v-toolbar>
+      </v-toolbar> -->
       <!-- <v-navigation-drawer app>
         <router-link to="/">Prices</router-link> |
         <router-link to="/wallet">Wallet</router-link> |
@@ -45,29 +46,34 @@
 
 </template>
 <script>
+import Navbar from './components/Navbar'
 export default {
   name: 'app',
-  data: () => ({
-    items: [
-      {
-        text: '繁體中文',
-        value: 'zh-TW'
-      },
-      {
-        text: 'English',
-        value:'en-US'
-      }
-    ],
-    defaultSelected: {
-      text: 'English',
-      value:'en-US'
-    },
-  }),
-  methods: {
-    changedLang(event) {
-      this.$i18n.locale = event;
-    }
-  }
+  components: {
+    // Localizer,
+    navbar: Navbar,
+  },
+  // data: () => ({
+  //   items: [
+  //     {
+  //       text: '繁體中文',
+  //       value: 'zh-TW'
+  //     },
+  //     {
+  //       text: 'English',
+  //       value:'en-US'
+  //     }
+  //   ],
+  //   defaultSelected: {
+  //     text: 'English',
+  //     value:'en-US'
+  //   },
+  // }),
+  // methods: {
+  //   changedLang(event) {
+  //     this.$i18n.locale = event;
+  //   }
+  // }
 }
 </script>
 
